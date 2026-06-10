@@ -1,0 +1,450 @@
+/* ═══════════════════════════════════════════════════════════
+   AUTH PAGE — split-card layout
+   Left: form (animates between login/signup)
+   Right: tribal craft hero (stays put, retints per role)
+   ═══════════════════════════════════════════════════════════ */
+
+.tm-auth-shell {
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Pattern wash with curved-blob accents */
+.tm-auth-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--pattern-diamonds);
+  background-size: 80px 80px;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, transparent 75%);
+}
+
+.tm-auth-bg::before,
+.tm-auth-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+}
+.tm-auth-bg::before {
+  width: 480px; height: 480px;
+  top: -120px; left: -120px;
+  background: radial-gradient(circle, rgba(192,85,44,0.25) 0%, transparent 70%);
+}
+.tm-auth-bg::after {
+  width: 520px; height: 520px;
+  bottom: -160px; right: -160px;
+  background: radial-gradient(circle, rgba(217,148,65,0.22) 0%, transparent 70%);
+}
+
+/* Back to portals link */
+.tm-auth-back {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-soft);
+  padding: 0.6rem 1.1rem;
+  border-radius: 50px;
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: var(--card-shadow);
+  z-index: 5;
+}
+.tm-auth-back:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateX(-3px);
+  box-shadow: 0 6px 16px rgba(192,85,44,0.32);
+}
+
+/* ── Main card (split layout) ─────────────────────────────── */
+.tm-auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1080px;
+  min-height: 620px;
+  background: var(--bg-white);
+  border-radius: 28px;
+  box-shadow: 0 30px 80px rgba(26,20,16,0.18), 0 2px 6px rgba(26,20,16,0.06);
+  border: 1px solid var(--border-soft);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 880px) {
+  .tm-auth-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
+
+/* ── LEFT: form side ──────────────────────────────────────── */
+.tm-auth-form-side {
+  position: relative;
+  padding: 3rem 2.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tm-auth-panel {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* ── Header (icon + title) ────────────────────────────────── */
+.tm-auth-header {
+  text-align: left;
+  margin-bottom: 1.75rem;
+}
+
+.tm-auth-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+.tm-auth-icon.customer { background: linear-gradient(135deg, var(--indigo), var(--indigo-light)); box-shadow: 0 6px 18px rgba(46,58,89,0.3); }
+.tm-auth-icon.agency   { background: linear-gradient(135deg, var(--ochre), var(--ochre-dark));   box-shadow: 0 6px 18px rgba(217,148,65,0.32); }
+.tm-auth-icon.agent    { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); box-shadow: 0 6px 18px rgba(192,85,44,0.32); }
+.tm-auth-icon.admin    { background: linear-gradient(135deg, var(--fg), #3a2c20);                box-shadow: 0 6px 18px rgba(26,20,16,0.3); }
+.tm-auth-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-diamonds);
+  background-size: 28px 28px;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+}
+.tm-auth-icon img {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+  position: relative;
+  z-index: 1;
+}
+
+.tm-auth-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.6vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+.tm-auth-header h1 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.tm-auth-header p {
+  color: var(--fg-mid);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* ── Form ─────────────────────────────────────────────────── */
+.tm-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tm-auth-field {
+  display: flex;
+  flex-direction: column;
+}
+.tm-auth-field > span {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--fg);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.01em;
+}
+.tm-auth-field input {
+  background: var(--bg-soft);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 11px;
+  padding: 0.8rem 0.95rem;
+  font-family: var(--font-body);
+  font-size: 0.93rem;
+  color: var(--fg);
+  outline: none;
+  transition: all 0.2s ease;
+}
+.tm-auth-field input:focus {
+  border-color: var(--accent);
+  background: var(--bg-white);
+  box-shadow: 0 0 0 3px rgba(192,85,44,0.12);
+}
+.tm-auth-field input::placeholder {
+  color: var(--fg-light);
+}
+
+.tm-auth-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.tm-auth-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.tm-auth-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg-mid);
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.tm-auth-check input[type='checkbox'] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.tm-auth-textlink {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+.tm-auth-textlink:hover { color: var(--accent-dark); }
+
+.tm-auth-error {
+  background: rgba(168,59,31,0.08);
+  border: 1px solid rgba(168,59,31,0.25);
+  color: var(--danger);
+  padding: 0.75rem 0.95rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  animation: shake 0.45s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+/* ── Submit ───────────────────────────────────────────────── */
+.tm-auth-submit {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.95rem;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.96rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  color: white;
+  transition: all 0.25s ease;
+  position: relative;
+}
+.tm-auth-submit::after {
+  content: '→';
+  margin-left: 0.55rem;
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+.tm-auth-submit:hover:not(:disabled)::after { transform: translateX(4px); }
+.tm-auth-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.tm-auth-submit.customer { background: linear-gradient(135deg, var(--indigo), var(--indigo-light)); box-shadow: 0 6px 18px rgba(46,58,89,0.32); }
+.tm-auth-submit.customer:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(46,58,89,0.42); }
+.tm-auth-submit.agency   { background: linear-gradient(135deg, var(--ochre), var(--ochre-dark));   box-shadow: 0 6px 18px rgba(217,148,65,0.35); }
+.tm-auth-submit.agency:hover:not(:disabled)   { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(176,112,32,0.5); }
+.tm-auth-submit.agent    { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); box-shadow: 0 6px 18px rgba(192,85,44,0.35); }
+.tm-auth-submit.agent:hover:not(:disabled)    { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(142,59,26,0.48); }
+.tm-auth-submit.admin    { background: linear-gradient(135deg, var(--fg), #3a2c20);                box-shadow: 0 6px 18px rgba(26,20,16,0.32); }
+.tm-auth-submit.admin:hover:not(:disabled)    { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(26,20,16,0.45); }
+
+/* ── Toggle (Sign in ↔ Sign up) ───────────────────────────── */
+.tm-auth-toggle {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--fg-mid);
+  font-size: 0.9rem;
+  text-align: center;
+}
+.tm-auth-toggle .tm-auth-textlink {
+  margin-left: 0.35rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1px;
+}
+
+/* ── RIGHT: hero side ─────────────────────────────────────── */
+.tm-auth-hero-side {
+  position: relative;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem 2.75rem;
+  min-height: 620px;
+  transition: background 0.4s ease;
+}
+
+@media (max-width: 880px) {
+  .tm-auth-hero-side { min-height: 280px; }
+}
+
+@media (max-width: 600px) {
+  .tm-auth-hero-side { display: none; }
+}
+
+.tm-auth-hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-diamonds);
+  background-size: 70px 70px;
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Floating product/craft image */
+.tm-auth-hero-image-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: 75%;
+  max-width: 380px;
+  aspect-ratio: 4 / 5;
+  z-index: 2;
+  border-radius: 26px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.tm-auth-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.tm-auth-hero-side:hover .tm-auth-hero-image { transform: scale(1.04); }
+
+/* Decorative blobs (echoes the reference layout) */
+.tm-auth-hero-blobs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.tm-blob {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.tm-blob-1 { width: 280px; height: 280px; top: -80px; right: -80px; }
+.tm-blob-2 { width: 180px; height: 180px; bottom: -50px; left: -40px; opacity: 0.5; }
+.tm-blob-3 { width: 100px; height: 100px; top: 35%; left: 8%; background: rgba(255,255,255,0.04); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+
+/* Hero copy at bottom */
+.tm-auth-hero-copy {
+  position: relative;
+  z-index: 3;
+  max-width: 340px;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.3);
+}
+
+.tm-auth-hero-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: white;
+  background: rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255,255,255,0.22);
+}
+
+.tm-auth-hero-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.6vw, 2.1rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.7rem;
+  color: white;
+}
+
+.tm-auth-hero-copy h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+}
+
+.tm-auth-hero-copy p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── Mobile tightening ────────────────────────────────────── */
+@media (max-width: 600px) {
+  .tm-auth-form-side { padding: 2rem 1.5rem; }
+  .tm-auth-back { top: 16px; left: 16px; font-size: 0.78rem; padding: 0.5rem 0.95rem; }
+}

@@ -1,0 +1,503 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&display=swap');
+
+:root {
+  /* ── EARTH / TRIBAL PALETTE ── */
+  --bg:           #faf6f0;          /* warm cream */
+  --bg-soft:      #f3ece1;          /* sand */
+  --bg-deep:      #ebe1d1;          /* warm taupe */
+  --bg-white:     #ffffff;
+  --fg:           #1a1410;          /* charred bark */
+  --fg-mid:       #5b4e44;          /* clay loam */
+  --fg-light:     #8c7d70;          /* sun-bleached wood */
+
+  /* Earthen accents */
+  --accent:       #c0552c;          /* deepened terracotta */
+  --accent-dark:  #8e3b1a;          /* burnt sienna */
+  --accent-soft:  #e9b88f;          /* tan glow */
+  --ochre:        #d99441;          /* turmeric ochre */
+  --ochre-dark:   #b07020;
+  --indigo:       #2e3a59;          /* deep indigo */
+  --indigo-light: #4a5980;
+  --forest:       #4a6a3a;          /* moss forest */
+  --gold:         #c9a35c;          /* aged brass */
+  --cream:        #f5ead8;
+  --bone:         #efe6d4;
+
+  /* Surfaces */
+  --border:       #d8ccba;
+  --border-soft:  #ebe0cd;
+  --card-shadow:  0 1px 2px rgba(26,20,16,0.04), 0 8px 24px rgba(26,20,16,0.06);
+  --card-shadow-lg: 0 2px 4px rgba(26,20,16,0.05), 0 24px 60px rgba(26,20,16,0.12);
+  --card-shadow-hover: 0 4px 10px rgba(26,20,16,0.08), 0 30px 70px rgba(26,20,16,0.18);
+
+  /* Type */
+  --font-display: 'Figtree', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-serif:   'Playfair Display', Georgia, serif;
+
+  /* Status */
+  --success:      #4a6a3a;
+  --warning:      #c08a2c;
+  --danger:       #a83b1f;
+  --info:         #2e3a59;
+
+  /* Patterns — SVG data URIs (encoded once, reusable) */
+  --pattern-diamonds: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><g fill='none' stroke='%23c0552c' stroke-width='1' opacity='0.18'><path d='M20 4 L36 20 L20 36 L4 20 Z'/><path d='M20 12 L28 20 L20 28 L12 20 Z'/></g></svg>");
+  --pattern-chevron:  url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'><path d='M0 14 L14 0 L28 14' stroke='%23c0552c' stroke-width='1' fill='none' opacity='0.16'/></svg>");
+  --pattern-dots:     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle cx='10' cy='10' r='1.4' fill='%23c0552c' opacity='0.22'/></svg>");
+  --pattern-weave:    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><g fill='none' stroke='%231a1410' stroke-width='1' opacity='0.06'><path d='M0 15 H30'/><path d='M15 0 V30'/><path d='M0 0 L30 30'/><path d='M0 30 L30 0'/></g></svg>");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Subtle global pattern wash — anchors the tribal feel without shouting */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--pattern-dots);
+  background-size: 28px 28px;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-dark); }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Scrollbar tweak */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-soft); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; border: 2px solid var(--bg-soft); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-soft); }
+
+/* Selection */
+::selection { background: var(--accent); color: white; }
+
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD OVERRIDES — unified warm palette across all roles
+   (replaces the previous blue/purple/dark scheme so the
+   marketplace identity carries through into the back-office)
+   ═══════════════════════════════════════════════════════════ */
+
+.dashboard-container {
+  background: var(--bg) !important;
+  color: var(--fg);
+  position: relative;
+}
+
+.dashboard-sidebar, .agency-sidebar, .admin-sidebar {
+  background: var(--bg-white) !important;
+  border-right: 1px solid var(--border) !important;
+  color: var(--fg) !important;
+  box-shadow: 1px 0 0 var(--border-soft), 4px 0 24px rgba(26,20,16,0.03) !important;
+  position: relative;
+}
+
+/* Sidebar gets a quiet woven pattern at the bottom edge */
+.dashboard-sidebar::after, .agency-sidebar::after, .admin-sidebar::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 120px;
+  background-image: var(--pattern-weave);
+  background-size: 24px 24px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sidebar-header, .sidebar-footer {
+  background: transparent !important;
+  border-color: var(--border-soft) !important;
+}
+
+.sidebar-header .logo-text, .sidebar-header .logo {
+  color: var(--fg) !important;
+  text-shadow: none !important;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.nav-item {
+  color: var(--fg-mid) !important;
+  font-family: var(--font-body);
+  font-weight: 500;
+  border-left: 3px solid transparent !important;
+  border-radius: 0 10px 10px 0 !important;
+  margin-right: 12px;
+  transition: all 0.2s ease !important;
+}
+
+.nav-item:hover {
+  background: var(--bg-soft) !important;
+  color: var(--fg) !important;
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(192,85,44,0.08), rgba(192,85,44,0.02)) !important;
+  color: var(--accent) !important;
+  border-left-color: var(--accent) !important;
+  font-weight: 600;
+}
+
+/* Role-specific accent on the active nav (subtle differentiation) */
+.agency-sidebar .nav-item.active {
+  background: linear-gradient(90deg, rgba(217,148,65,0.12), rgba(217,148,65,0.02)) !important;
+  color: var(--ochre-dark) !important;
+  border-left-color: var(--ochre) !important;
+}
+
+.admin-sidebar .nav-item.active {
+  background: linear-gradient(90deg, rgba(46,58,89,0.10), rgba(46,58,89,0.02)) !important;
+  color: var(--indigo) !important;
+  border-left-color: var(--indigo) !important;
+}
+
+.logout-btn {
+  color: var(--accent) !important;
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+.logout-btn:hover {
+  background: var(--accent) !important;
+  color: white !important;
+  border-color: var(--accent) !important;
+}
+
+.dashboard-header {
+  background: var(--bg-white) !important;
+  box-shadow: var(--card-shadow) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 14px !important;
+}
+
+h1, h2, h3 {
+  color: var(--fg) !important;
+  font-family: var(--font-display) !important;
+}
+
+p, span { color: var(--fg-mid); }
+
+.header-btn {
+  background: var(--bg-soft) !important;
+  color: var(--fg) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
+}
+.header-btn:hover {
+  background: var(--accent-soft) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent-dark) !important;
+}
+
+.user-profile {
+  background: var(--bg-soft) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 50px !important;
+  transition: all 0.2s !important;
+}
+.user-profile:hover {
+  background: var(--bone) !important;
+  border-color: var(--border) !important;
+}
+
+.profile-avatar, .profile-avatar.admin, .profile-avatar.agency {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
+  color: white !important;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.admin-sidebar ~ .dashboard-main .profile-avatar.admin,
+.profile-avatar.admin {
+  background: linear-gradient(135deg, var(--indigo), var(--indigo-light)) !important;
+}
+.agency-sidebar ~ .dashboard-main .profile-avatar.agency,
+.profile-avatar.agency {
+  background: linear-gradient(135deg, var(--ochre), var(--ochre-dark)) !important;
+}
+
+.profile-info .profile-role { color: var(--fg-light) !important; font-weight: 500; }
+.profile-info .profile-name { color: var(--fg) !important; font-weight: 600; }
+
+/* Stat / action cards */
+.stat-card {
+  background: var(--bg-white) !important;
+  box-shadow: var(--card-shadow) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 16px !important;
+  transition: transform 0.25s, box-shadow 0.25s !important;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--ochre));
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover) !important;
+}
+
+.stat-icon {
+  background: linear-gradient(135deg, var(--accent-soft), var(--bone)) !important;
+  color: var(--accent-dark) !important;
+  border-radius: 12px !important;
+}
+
+.action-card {
+  background: var(--bg-white) !important;
+  border: 1px solid var(--border-soft) !important;
+  box-shadow: var(--card-shadow) !important;
+  border-radius: 16px !important;
+  transition: all 0.25s !important;
+}
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover) !important;
+  border-color: var(--accent-soft) !important;
+}
+
+.action-btn, .submit-btn-add {
+  background: var(--accent) !important;
+  color: white !important;
+  box-shadow: 0 4px 14px rgba(192,85,44,0.28) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
+  transition: all 0.2s !important;
+}
+.action-btn:hover, .submit-btn-add:hover {
+  background: var(--accent-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(142,59,26,0.35) !important;
+}
+
+/* Cards & containers */
+.add-product-card, .document-viewer,
+.document-card, .product-card-admin, .review-section, .upload-card {
+  background: var(--bg-white) !important;
+  box-shadow: var(--card-shadow) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 16px !important;
+}
+
+.doc-card-header, .product-card-header {
+  border-bottom: 1px solid var(--border-soft) !important;
+  background: var(--bg-soft) !important;
+}
+
+/* Forms */
+.form-group-add input, .form-group-add select, .form-group-add textarea {
+  border: 1.5px solid var(--border-soft) !important;
+  background: var(--bg-white) !important;
+  color: var(--fg) !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  font-family: var(--font-body) !important;
+  transition: all 0.2s !important;
+}
+.form-group-add input:focus, .form-group-add select:focus, .form-group-add textarea:focus {
+  border-color: var(--accent) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(192,85,44,0.12) !important;
+}
+.form-group-add label {
+  color: var(--fg) !important;
+  font-weight: 600 !important;
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* Dropzone */
+.dropzone {
+  border: 2px dashed var(--border) !important;
+  background: var(--bg-soft) !important;
+  color: var(--fg-mid) !important;
+  border-radius: 14px !important;
+  transition: all 0.2s !important;
+}
+.dropzone.active {
+  border-color: var(--accent) !important;
+  background: rgba(192,85,44,0.06) !important;
+  color: var(--accent-dark) !important;
+}
+
+.upload-field {
+  border: 1.5px dashed var(--border) !important;
+  background: var(--bg-soft) !important;
+  border-radius: 10px !important;
+}
+
+/* Status badges — softer pill style */
+.status-badge-doc, .status-badge {
+  box-shadow: none !important;
+  border: 1px solid var(--border-soft) !important;
+  background: var(--bg-soft) !important;
+  color: var(--fg) !important;
+  border-radius: 50px !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.02em;
+}
+
+/* Action buttons (approve / reject / view) */
+.view-doc-btn, .approve-btn {
+  background: var(--accent) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: all 0.2s !important;
+}
+.view-doc-btn:hover, .approve-btn:hover {
+  background: var(--accent-dark) !important;
+  transform: translateY(-1px);
+}
+
+.reject-btn {
+  background: var(--bg-white) !important;
+  color: var(--danger) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 10px !important;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: all 0.2s !important;
+}
+.reject-btn:hover {
+  background: var(--danger) !important;
+  color: white !important;
+  border-color: var(--danger) !important;
+}
+
+/* Filter tabs */
+.filter-tabs {
+  border-bottom: 2px solid var(--border-soft) !important;
+}
+.filter-tab {
+  color: var(--fg-mid) !important;
+  font-family: var(--font-display);
+  font-weight: 600;
+  transition: all 0.2s !important;
+}
+.filter-tab:hover { color: var(--fg) !important; }
+.filter-tab.active {
+  border-bottom: 3px solid var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* Auth screens */
+.auth-container, .auth-selection-container {
+  background: var(--bg) !important;
+  position: relative;
+}
+.auth-container::before, .auth-selection-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-diamonds);
+  background-size: 60px 60px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.auth-card, .selection-card {
+  background: var(--bg-white) !important;
+  box-shadow: var(--card-shadow-lg) !important;
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 20px !important;
+  position: relative;
+  z-index: 1;
+}
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--ochre), var(--accent));
+  border-radius: 20px 20px 0 0;
+}
+
+.auth-btn, .selection-btn {
+  background: var(--accent) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 0.85rem 1.5rem !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 14px rgba(192,85,44,0.25) !important;
+  transition: all 0.2s !important;
+}
+.auth-btn:hover, .selection-btn:hover {
+  background: var(--accent-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(142,59,26,0.32) !important;
+}
+
+/* Tables */
+table th {
+  background: var(--bg-soft) !important;
+  color: var(--fg) !important;
+  border-bottom: 1px solid var(--border) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+table td {
+  border-bottom: 1px solid var(--border-soft) !important;
+  color: var(--fg-mid) !important;
+}
+table tr:hover td {
+  background: var(--bg-soft) !important;
+  color: var(--fg) !important;
+}
+
+.doc-label { color: var(--fg) !important; font-weight: 600; }
+.doc-value { color: var(--fg-mid) !important; }

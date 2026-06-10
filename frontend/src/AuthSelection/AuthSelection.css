@@ -1,0 +1,388 @@
+/* ═══════════════════════════════════════════════════════════
+   AUTH SELECTION — tribal-themed portal picker
+   Inherits design tokens (--accent, --ochre, --indigo, etc.)
+   from src/index.css
+   ═══════════════════════════════════════════════════════════ */
+
+.auth-selection-container {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 20px;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+}
+
+/* Pattern wash backdrop */
+.auth-selection-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-diamonds);
+  background-size: 70px 70px;
+  opacity: 0.5;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at top, rgba(0,0,0,0.9) 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at top, rgba(0,0,0,0.9) 0%, transparent 80%);
+}
+
+/* Warm radial glow top-right */
+.auth-selection-container::after {
+  content: '';
+  position: absolute;
+  top: -160px;
+  right: -160px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle at center,
+    rgba(217,148,65,0.16) 0%,
+    rgba(192,85,44,0.08) 45%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-selection-content {
+  max-width: 1180px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Back button ──────────────────────────────────────────── */
+.back-btn {
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-soft);
+  padding: 0.7rem 1.3rem;
+  border-radius: 50px;
+  color: var(--fg);
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 2.5rem;
+  font-size: 0.9rem;
+  box-shadow: var(--card-shadow);
+}
+
+.back-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateX(-4px);
+  box-shadow: 0 6px 18px rgba(192,85,44,0.32);
+}
+
+/* ── Title block ──────────────────────────────────────────── */
+.auth-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: var(--fg);
+  text-align: center;
+  margin-bottom: 0.85rem;
+  animation: fadeInUp 0.6s ease both;
+  line-height: 1.05;
+}
+
+.auth-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  margin: 1rem auto 0;
+  background: linear-gradient(90deg, var(--accent), var(--ochre));
+  border-radius: 4px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: var(--fg-mid);
+  font-size: 1.05rem;
+  margin-bottom: 3.5rem;
+  animation: fadeInUp 0.6s ease 0.15s backwards;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.65;
+}
+
+/* ── Portal card grid ─────────────────────────────────────── */
+.auth-card-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.6s ease 0.3s backwards;
+}
+
+.auth-portal-card {
+  background: var(--bg-white);
+  border-radius: 22px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-soft);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s, border-color 0.35s;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-portal-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--ochre));
+  opacity: 0;
+  transition: opacity 0.35s;
+  z-index: 2;
+}
+
+.auth-portal-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--accent-soft);
+}
+
+.auth-portal-card:hover::before { opacity: 1; }
+
+/* ── Card top (icon block with per-role tint) ─────────────── */
+.card-top {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-top::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--pattern-diamonds);
+  background-size: 50px 50px;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Per-role gradients — using the tribal palette */
+.card-top.customer { background: linear-gradient(135deg, var(--indigo) 0%, var(--indigo-light) 100%); }
+.card-top.agency   { background: linear-gradient(135deg, var(--ochre) 0%, var(--ochre-dark) 100%); }
+.card-top.agent    { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); }
+.card-top.admin    { background: linear-gradient(135deg, var(--fg) 0%, #3a2c20 100%); }
+
+.card-top::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.card-icon {
+  position: relative;
+  z-index: 1;
+  animation: float 4s ease-in-out infinite;
+}
+
+.card-icon img {
+  width: 76px;
+  height: 76px;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Card body ────────────────────────────────────────────── */
+.auth-portal-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--fg);
+  margin: 1.5rem 1.5rem 0.65rem;
+  letter-spacing: -0.02em;
+}
+
+.auth-portal-card p {
+  color: var(--fg-mid);
+  line-height: 1.6;
+  margin: 0 1.5rem 1.75rem;
+  font-size: 0.92rem;
+  flex: 1;
+}
+
+/* ── Access buttons ───────────────────────────────────────── */
+.access-btn {
+  width: calc(100% - 3rem);
+  margin: 0 1.5rem 1.5rem;
+  padding: 0.95rem 1rem;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.access-btn::after {
+  content: '→';
+  margin-left: 0.5rem;
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.access-btn:hover::after { transform: translateX(4px); }
+
+.customer-btn { background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+                box-shadow: 0 4px 14px rgba(46,58,89,0.32); }
+.customer-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(46,58,89,0.42); }
+
+.agency-btn   { background: linear-gradient(135deg, var(--ochre), var(--ochre-dark));
+                box-shadow: 0 4px 14px rgba(217,148,65,0.35); }
+.agency-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(176,112,32,0.5); }
+
+.agent-btn    { background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+                box-shadow: 0 4px 14px rgba(192,85,44,0.35); }
+.agent-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(142,59,26,0.48); }
+
+.admin-btn    { background: linear-gradient(135deg, var(--fg), #3a2c20);
+                box-shadow: 0 4px 14px rgba(26,20,16,0.32); }
+.admin-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(26,20,16,0.45); }
+
+/* ── Help box ─────────────────────────────────────────────── */
+.help-box {
+  background: var(--bg-white);
+  padding: 2.5rem;
+  border-radius: 22px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-soft);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.6s ease 0.45s backwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.help-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 14px;
+  background-image: var(--pattern-chevron);
+  background-size: 28px 14px;
+  background-repeat: repeat-x;
+  opacity: 0.4;
+}
+
+.help-box h4 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--fg);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+}
+
+.help-box p {
+  color: var(--fg-mid);
+  margin-bottom: 1.75rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.help-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.help-btn {
+  padding: 0.8rem 1.6rem;
+  border: 1.5px solid var(--border);
+  background: var(--bg-soft);
+  border-radius: 50px;
+  color: var(--fg);
+  font-family: var(--font-display);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 0.9rem;
+}
+
+.help-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(192,85,44,0.3);
+}
+
+/* ── Footer switch link ───────────────────────────────────── */
+.auth-switch {
+  text-align: center;
+  animation: fadeInUp 0.6s ease 0.6s backwards;
+}
+
+.auth-switch p {
+  color: var(--fg-mid);
+  font-size: 0.95rem;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  font-family: var(--font-display);
+  cursor: pointer;
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1px;
+  transition: all 0.2s;
+}
+
+.switch-link:hover {
+  color: var(--accent-dark);
+  border-bottom-color: var(--accent-dark);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .auth-card-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .auth-portal-card { max-width: 100%; }
+  .help-buttons { flex-direction: column; }
+  .help-btn { width: 100%; }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "tribal-mart",
+  "version": "1.0.0",
+  "description": "Tribal Mart — marketplace connecting India's tribal cooperatives with conscious buyers. 4 portals (Customer / Agency / Agent / Admin) with EN/HI language switching.",
+  "private": true,
+  "scripts": {
+    "install:all":      "npm run install:backend && npm run install:frontend",
+    "install:backend":  "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+
+    "dev:backend":      "cd backend && npm run dev",
+    "dev:frontend":     "cd frontend && npm run dev",
+
+    "start:backend":    "cd backend && npm start",
+    "build:frontend":   "cd frontend && npm run build",
+    "preview:frontend": "cd frontend && npm run preview",
+
+    "seed:admin":       "cd backend && node scripts/seedAdmin.js",
+    "seed:demo":        "cd backend && node scripts/seedDemo.js",
+    "seed:all":         "npm run seed:admin && npm run seed:demo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/tribal-mart.git"
+  },
+  "keywords": [
+    "marketplace",
+    "tribal",
+    "artisan",
+    "ecommerce",
+    "mern",
+    "react",
+    "framer-motion",
+    "i18n",
+    "hindi"
+  ],
+  "author": "Tribal Mart",
+  "license": "MIT"
+}

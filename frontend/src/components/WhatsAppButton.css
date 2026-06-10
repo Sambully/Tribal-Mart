@@ -1,0 +1,86 @@
+/* Floating WhatsApp launcher — bottom-LEFT so it sits opposite the
+ * Saathi chatbot launcher (which lives bottom-right). Uses WhatsApp's
+ * brand green gradient and a soft pulsing halo to draw the eye.
+ */
+
+.tm-wa-launcher {
+  position: fixed;
+  left: 1.2rem;
+  bottom: 1.2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45), 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9998;
+  cursor: pointer;
+}
+
+.tm-wa-icon {
+  width: 34px;
+  height: 34px;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.tm-wa-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  opacity: 0.5;
+  animation: tm-wa-pulse 2.4s ease-out infinite;
+  z-index: 1;
+}
+@keyframes tm-wa-pulse {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(1.7); opacity: 0;    }
+}
+
+.tm-wa-tooltip {
+  position: absolute;
+  left: 72px;
+  bottom: 50%;
+  transform: translateY(50%);
+  background: #2C1810;
+  color: #fff;
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  animation: tm-wa-tip-in 0.15s ease-out;
+}
+.tm-wa-tooltip::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: #2C1810;
+}
+@keyframes tm-wa-tip-in {
+  from { opacity: 0; transform: translate(-6px, 50%); }
+  to   { opacity: 1; transform: translate(0,    50%); }
+}
+
+/* Mobile — slightly smaller and tucked in more */
+@media (max-width: 480px) {
+  .tm-wa-launcher {
+    left: 0.8rem;
+    bottom: 0.8rem;
+    width: 54px;
+    height: 54px;
+  }
+  .tm-wa-icon { width: 30px; height: 30px; }
+  .tm-wa-tooltip { display: none; }
+}

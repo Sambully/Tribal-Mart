@@ -1,0 +1,149 @@
+/* Vapi voice launcher — sits bottom-LEFT, ABOVE the WhatsApp button
+ * (WhatsApp at bottom: 1.2rem, voice at bottom: 5.5rem) so the two
+ * support entry-points stack vertically without overlapping the
+ * Saathi text chatbot on the right.
+ */
+
+.tm-voice-wrap {
+  position: fixed;
+  left: 1.2rem;
+  bottom: 5.5rem;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.tm-voice-launcher {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #ec4899 100%);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.45), 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.tm-voice-launcher.is-live {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.5), 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.tm-voice-launcher.is-error {
+  background: #d97706;
+}
+.tm-voice-launcher.is-connecting {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+}
+
+.tm-voice-icon {
+  width: 28px;
+  height: 28px;
+  position: relative;
+  z-index: 2;
+}
+.tm-voice-spin {
+  animation: tm-voice-spin 0.9s linear infinite;
+}
+@keyframes tm-voice-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Volume-driven halo, only meaningfully visible during a live call */
+.tm-voice-halo {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.55), transparent 70%);
+  opacity: 0;
+  transition: transform 0.12s ease-out, opacity 0.2s;
+  z-index: 1;
+}
+.tm-voice-launcher.is-live .tm-voice-halo {
+  opacity: 1;
+  background: radial-gradient(circle at center, rgba(239, 68, 68, 0.6), transparent 70%);
+}
+/* Idle gentle pulse so it draws the eye when not in a call */
+.tm-voice-launcher.is-idle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #8b5cf6;
+  opacity: 0.45;
+  animation: tm-voice-pulse 2.4s ease-out infinite;
+  z-index: 0;
+}
+@keyframes tm-voice-pulse {
+  0%   { transform: scale(1);   opacity: 0.45; }
+  100% { transform: scale(1.7); opacity: 0;    }
+}
+
+/* Status pill */
+.tm-voice-status {
+  background: #2C1810;
+  color: #fff;
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 0.8rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  margin-bottom: 0.55rem;
+  pointer-events: none;
+}
+
+/* Hover tooltip (right of button) */
+.tm-voice-tooltip {
+  position: absolute;
+  left: 72px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2C1810;
+  color: #fff;
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  animation: tm-voice-tip-in 0.15s ease-out;
+}
+.tm-voice-tooltip::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: #2C1810;
+}
+@keyframes tm-voice-tip-in {
+  from { opacity: 0; transform: translate(-6px, -50%); }
+  to   { opacity: 1; transform: translate(0,    -50%); }
+}
+
+/* Mobile — slightly smaller, drop tooltip */
+@media (max-width: 480px) {
+  .tm-voice-wrap {
+    left: 0.8rem;
+    bottom: 4.6rem;
+  }
+  .tm-voice-launcher {
+    width: 54px;
+    height: 54px;
+  }
+  .tm-voice-icon { width: 25px; height: 25px; }
+  .tm-voice-tooltip { display: none; }
+}
